@@ -15,15 +15,9 @@ def initialize_firebase():
 
 @app.route('/<name>', methods=['GET', 'POST'])
 def home(name):
-    
-    name = str(escape(name))
     if hasattr(g, 'db'):
-        db_conn.insert(g.db, "users", {"name": name, "age": "30"})
-    else:
-        return None
-    return jsonify({
-        "status": 1
-    })
+        return jsonify({"data" : db_conn.get_all(g.db, name)})
+    return jsonify({"error": "No database connection"})
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)

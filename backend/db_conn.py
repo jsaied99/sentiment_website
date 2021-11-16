@@ -1,9 +1,6 @@
 import firebase_admin
 from firebase_admin import credentials
-# from firebase_admin import db
 from firebase_admin import firestore
-
-
 
 def initialize_db():
     
@@ -15,12 +12,25 @@ def initialize_db():
         return db
     except:
         return None
-# doc_ref = db.collection(u'users').document(u'alovelace')
-# doc_ref.set({
-#     u'first': u'Ada',
-#     u'last': u'Lovelace',
-#     u'born': 1815
-# })
 
 def insert(db, collection, data):
     db.collection(collection).add(data)
+    
+def delete(db, collection, id):
+    db.collection(collection).document(id).delete()
+    
+def get_all(db, collection):
+    docs = db.collection(collection).stream()
+    data = []
+    
+    for doc in docs:
+        data.append(doc.to_dict())
+    return data
+
+def get_by_id(db, collection, id):
+    result = db.collection(collection).document(id).get()
+    
+    if result.exists:
+        return result.to_dict()
+    else:
+        return None
