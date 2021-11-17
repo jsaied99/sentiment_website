@@ -34,3 +34,13 @@ def get_by_id(db, collection, id):
         return result.to_dict()
     else:
         return None
+
+def get_data_by_uid(db, collection, uid):
+    docs = db.collection(collection).where(u'uid', u'==', uid).get()
+    data = []
+
+    for doc in docs:
+        data.append(doc.to_dict())
+
+    return data
+
