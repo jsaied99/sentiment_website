@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+    <img src="assets/MU_Stacked.png">
+    <span color="warn" id="navHeader">Sentiment Analysis</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/examples">Examples</button>
+    <button mat-button routerLink="">Analysis</button>
+    <button mat-button routerLink="/about">About</button>
+    <div *ngIf="">
+        <button mat-button routerLink="/admin">Admin</button>
+    </div>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/login">Login</button>
+    <ng-template #noLogin>
+        <button mat-button>Logout</button>
+    </ng-template>
+    <button mat-button routerLink="/cart" id="cart">
+        <mat-icon aria-hidden="false" aria-label="Shopping Cart">shopping_cart</mat-icon>
+    </button>
+</mat-toolbar>
