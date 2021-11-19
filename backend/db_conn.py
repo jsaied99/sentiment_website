@@ -50,11 +50,12 @@ def get_data_by_uid(db, collection, uid):
 def get_all_searched_text(db, collection, uid):
     docs = db.collection(collection).document(uid).get()
     data = []
-    text_arrays = docs.to_dict()['texts']
-
-    for text in text_arrays:
-        tmp_sentiment = TextSentiment(text['text'], text['sentiment'])
-        data.append(tmp_sentiment.__str__())
     
-    return data
+    if docs.exists:
+        text_arrays = docs.to_dict()['texts']
 
+        for text in text_arrays:
+            tmp_sentiment = TextSentiment(text['text'], text['sentiment'])
+            data.append(tmp_sentiment.objectify())
+        
+    return data
