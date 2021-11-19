@@ -1,6 +1,8 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+# import objects
+from objects.text_sentiment import TextSentiment
 
 def initialize_db():
     
@@ -42,5 +44,17 @@ def get_data_by_uid(db, collection, uid):
     for doc in docs:
         data.append(doc.to_dict())
 
+    return data
+
+
+def get_all_searched_text(db, collection, uid):
+    docs = db.collection(collection).document(uid).get()
+    data = []
+    text_arrays = docs.to_dict()['texts']
+
+    for text in text_arrays:
+        tmp_sentiment = TextSentiment(text['text'], text['sentiment'])
+        data.append(tmp_sentiment.__str__())
+    
     return data
 

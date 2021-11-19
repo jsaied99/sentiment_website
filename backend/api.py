@@ -32,6 +32,12 @@ def get_sentiment_data(uid):
         return jsonify({"No Data": []})
 
     return jsonify({"error": "No database connection"})
+
+
+@app.route('/test', methods=['GET','POST'])
+def test():
+    data = db_conn.get_all_searched_text(g.db, 'users', 'y3XjAUUGTvXBE5m9JKxV')
     
+    return jsonify({"data": data})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
