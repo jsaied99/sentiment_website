@@ -1,6 +1,8 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import random
+from objects.text_sentiment import TextSentiment
 
 def initialize_db():
     
@@ -19,6 +21,14 @@ def insert(db, collection, data):
 def delete(db, collection, id):
     db.collection(collection).document(id).delete()
     
+def update_text(db, collection, uid, data):
+    db.collection(collection).document(uid).update({
+        'texts': firestore.ArrayUnion([data])
+    })
+
+def insert_doc(db,collection,uid, data):
+    db.collection(collection).document(uid).set(data)
+
 def get_all(db, collection):
     docs = db.collection(collection).stream()
     data = []
@@ -44,3 +54,55 @@ def get_data_by_uid(db, collection, uid):
 
     return data
 
+
+def get_all_searched_text(db, collection, uid):
+    docs = db.collection(collection).document(uid).get()
+    data = []
+    
+    if docs.exists:
+        text_arrays = docs.to_dict()['texts']
+
+        for text in text_arrays:
+            tmp_sentiment = TextSentiment(text['text'], text['sentiment'])
+            data.append(tmp_sentiment.objectify())
+        
+    return data
+
+
+
+
+def magic_function_by_daniel(text):
+    r = random.random()
+    return r
+
+
+def analyze_text(db,collection,uid, text):
+    update_doc(db,collection,uid, text)
+    
+    return None
+
+
+
+def update_doc(db,collection,uid, text):
+    uid_ref = db.collection(collection).document(uid)
+    score = magic_function_by_daniel(text)
+    if uid_ref.get().exists:
+        data = {
+            'text': text,
+            'score': score
+        }
+        update_text(db,collection,uid, data)
+    else:
+        data = {
+            'uid': uid,
+            'texts': [
+                {
+                    'text': text,
+                    'score': score
+                }
+            ]
+        }
+        insert_doc(db, collection,uid, data)
+
+        
+    

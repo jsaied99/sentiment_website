@@ -11,9 +11,6 @@ app.config["CORS_HEADER"] = "Content-Type"
 def initialize_firebase():
     print("Initializing Firebase")
     g.db = db_conn.initialize_db()
-    # db_conn.insert(g.db, "users", {"name": "John Doe", "age": "30"})
-    # db_conn.insert(g.db, "sentiment_data", {"uid": "abc", "body": "30", "senti_score": 0.4})
-
 @app.route('/<name>', methods=['GET', 'POST'])
 def home(name):
     if hasattr(g, 'db'):
@@ -32,6 +29,23 @@ def get_sentiment_data(uid):
         return jsonify({"No Data": []})
 
     return jsonify({"error": "No database connection"})
+
+
+@app.route('/test', methods=['GET','POST'])
+def test():
+    data = db_conn.get_all_searched_text(g.db, 'users', 'y3XjAUUGTvXBE5m9JKxV')
     
+    return jsonify({"data": data})
+
+
+@app.route('/sentiment_analysis', methods=['POST'])
+def analyze_data():
+    body = request.get_json()
+    text = body['text']
+    uid = body['uid']
+    db_conn.analyze_text(g.db,'users', uid, text)
+    
+    return jsonify({"success": True})
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0',port=5001, debug=True)
