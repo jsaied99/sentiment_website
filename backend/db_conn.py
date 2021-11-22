@@ -1,11 +1,8 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-# import objects
-# import random 
 import random
 from objects.text_sentiment import TextSentiment
-from multiprocessing import Process
 
 def initialize_db():
     
