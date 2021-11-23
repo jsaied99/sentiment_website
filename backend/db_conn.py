@@ -63,7 +63,7 @@ def get_all_searched_text(db, collection, uid):
         text_arrays = docs.to_dict()['texts']
 
         for text in text_arrays:
-            tmp_sentiment = TextSentiment(text['text'], text['sentiment'])
+            tmp_sentiment = TextSentiment(text['text'], text['score'])
             data.append(tmp_sentiment.objectify())
         
     return data
@@ -77,9 +77,7 @@ def magic_function_by_daniel(text):
 
 
 def analyze_text(db,collection,uid, text):
-    update_doc(db,collection,uid, text)
-    
-    return None
+    return update_doc(db,collection,uid, text)
 
 
 
@@ -103,6 +101,7 @@ def update_doc(db,collection,uid, text):
             ]
         }
         insert_doc(db, collection,uid, data)
+    return data
 
         
     

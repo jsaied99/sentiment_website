@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, escape, g,request
 from flask_cors import CORS
 import db_conn
-from multiprocessing import Process
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -11,11 +10,20 @@ app.config["CORS_HEADER"] = "Content-Type"
 def initialize_firebase():
     print("Initializing Firebase")
     g.db = db_conn.initialize_db()
-@app.route('/<name>', methods=['GET', 'POST'])
-def home(name):
-    if hasattr(g, 'db'):
-        return jsonify({"data" : db_conn.get_all(g.db, name)})
-    return jsonify({"error": "No database connection"})
+
+
+@app.route('/all_queries', methods=['GET', 'POST'])
+def uui_request():
+    body = request.get_json()
+    
+    if 'uid' in body.keys():
+        uid = body['uid']
+        data = db_conn.get_all_searched_text(g.db, 'users', uid)
+        return jsonify({
+            "data": data,
+            "status": 1
+            })
+    
 
 @app.route('/sentiment_data/<uid>', methods=['GET'])
 def get_sentiment_data(uid):
@@ -31,11 +39,11 @@ def get_sentiment_data(uid):
     return jsonify({"error": "No database connection"})
 
 
-@app.route('/test', methods=['GET','POST'])
-def test():
-    data = db_conn.get_all_searched_text(g.db, 'users', 'y3XjAUUGTvXBE5m9JKxV')
+# @app.route('/test', methods=['GET','POST'])
+# def test():
+#     data = db_conn.get_all_searched_text(g.db, 'users', 'y3XjAUUGTvXBE5m9JKxV')
     
-    return jsonify({"data": data})
+#     return jsonify({"data": data})
 
 
 @app.route('/sentiment_analysis', methods=['POST'])
@@ -43,9 +51,11 @@ def analyze_data():
     body = request.get_json()
     text = body['text']
     uid = body['uid']
-    db_conn.analyze_text(g.db,'users', uid, text)
+    data = db_conn.analyze_text(g.db,u'users', uid, text)
     
-    return jsonify({"success": True})
+    return jsonify({
+        "data": data,
+        "success": 1})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5001, debug=True)
