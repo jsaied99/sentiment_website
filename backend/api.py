@@ -6,10 +6,11 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["CORS_HEADER"] = "Content-Type"
 
-@app.before_first_request
+@app.before_request
 def initialize_firebase():
     print("Initializing Firebase")
     g.db = db_conn.initialize_db()
+
 
 
 @app.route('/all_queries', methods=['GET', 'POST'])
