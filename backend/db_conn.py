@@ -3,6 +3,9 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import random
 from objects.text_sentiment import TextSentiment
+import nltk
+nltk.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 def initialize_db():
     
@@ -69,11 +72,9 @@ def get_all_searched_text(db, collection, uid):
     return data
 
 
-
-
-def magic_function_by_daniel(text):
-    r = random.random()
-    return r
+def get_text_sentiment(text):
+    sid = SentimentIntensityAnalyzer
+    return sid.polarity_scores(text)['compound']
 
 
 def analyze_text(db,collection,uid, text):
