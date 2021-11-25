@@ -4,9 +4,13 @@ from firebase_admin import firestore
 import random
 from objects.text_sentiment import TextSentiment
 import nltk
+import threading
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
+from testing_threads import *
+SCORE_ARRAY  = []
+TEXT_PER_THREAD = 100
+THREADS = 10
 def initialize_db():
     
     cred = credentials.Certificate("./auth/sentiment-data-baae2-firebase-adminsdk-i1ray-956180ff92.json")
@@ -73,8 +77,14 @@ def get_all_searched_text(db, collection, uid):
 
 def get_text_sentiment(text):
     sid = SentimentIntensityAnalyzer()
-    print(text)
     return sid.polarity_scores(text)['compound']
+
+
+def get_text_sentiment_thread(text, analyzed_texts):
+    sid = SentimentIntensityAnalyzer()
+    
+    for t in text:
+        analyzed_texts.append(sid.polarity_scores(t)['compound'])
 
 def get_text_sentiment_interpretation(score):
     if score > 0.5:
@@ -91,9 +101,33 @@ def analyze_text(db,collection,uid, text):
 
 
 
+def analyze_multiple_texts(texts: list):
+    analyzed_texts = []
+    thread_pool = []
+    for i in range(THREADS):
+        thread_pool.append(threading.Thread(
+            target=get_text_sentiment_thread, args=(texts[i*TEXT_PER_THREAD:(i+1)*TEXT_PER_THREAD], analyzed_texts)))
+        
+    for thread in thread_pool:
+        thread.start()
+
+    for thread in thread_pool:
+        thread.join()
+    
+    return analyzed_texts    
+    
+        
+    
 def update_doc(db,collection,uid, text):
     uid_ref = db.collection(collection).document(uid)
-    score = get_text_sentiment(text)
+    
+
+    #if PRODUCTION
+    # text_array = get_all_texts()
+    # at =analyze_multiple_texts(text_array)
+    #endif PRODUCTION
+    
+    score = get_text_sentiment(text)    
     interpretation = get_text_sentiment_interpretation(score)
     if uid_ref.get().exists:
         data = {

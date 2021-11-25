@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, escape, g,request
 from flask_cors import CORS
 import db_conn
+from time import time
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -40,22 +41,18 @@ def get_sentiment_data(uid):
     return jsonify({"error": "No database connection"})
 
 
-# @app.route('/test', methods=['GET','POST'])
-# def test():
-#     data = db_conn.get_all_searched_text(g.db, 'users', 'y3XjAUUGTvXBE5m9JKxV')
-    
-#     return jsonify({"data": data})
-
 
 @app.route('/sentiment_analysis', methods=['POST'])
 def analyze_data():
     body = request.get_json()
     text = body['text']
     uid = body['uid']
+    start = time()
     data = db_conn.analyze_text(g.db,u'users', uid, text)
     
     return jsonify({
         "data": data,
+        "execution_time": time() - start,
         "success": 1})
 
 if __name__ == '__main__':
