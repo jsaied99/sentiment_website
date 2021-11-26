@@ -39,6 +39,7 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
+      { path: 'signUp', component: SignUpComponent },
       { path: 'login', component: LoginComponent },
       { path: '', component: HomeComponent },
     ]),

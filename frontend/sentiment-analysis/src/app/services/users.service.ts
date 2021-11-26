@@ -25,7 +25,7 @@ export class UsersService {
 
   setUser(data: any) {
     return this.firestore
-      .collection(`users`).doc(data.fname).set(data)
+      .collection('users').doc('Payton').set(data)
   }
 
   //get user data from firestore database

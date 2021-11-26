@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { UsersService } from '../services/users.service';
 import { MatDialog } from '@angular/material/dialog';
 // import { UserDialogComponent } from '../user-dialog/user-dialog.component';
-// import { ConfirmedValidator } from '../confirm-password';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ConfirmedValidator } from '../confirm-password';
 @Component({
@@ -27,6 +26,11 @@ export class SignUpComponent implements OnInit {
     private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
+    this.firestore.collection('users').doc('Payton').set({
+      fname: 'Jamal',
+      lname: 'Barker',
+
+    })
     this.signUpForm = this.fb.group({
       fname: new FormControl('', Validators.required),
       lname: new FormControl('', Validators.required),
@@ -41,7 +45,7 @@ export class SignUpComponent implements OnInit {
 
   get fname() {return this.signUpForm.get('fname')}
   get lname() {return this.signUpForm.get('lname')}
-  get email() {return this.signUpForm.get('pawprint')}
+  get email() {return this.signUpForm.get('email')}
   get password() {return this.signUpForm.get('password')}
   get confirmPassword() {return this.signUpForm.get('confirmPassword')}
   get f(){return this.signUpForm.controls;}
@@ -59,7 +63,7 @@ export class SignUpComponent implements OnInit {
           fname: this.fname!.value,
           role: 'user',
         }
-
+        //Having trouble getting the user to be created in the database
         console.log(user);
         this.userService.setUser(user)
         this.userService.getUser(user.fname).subscribe(user => {
@@ -70,16 +74,6 @@ export class SignUpComponent implements OnInit {
         this.router.navigate([''])
       })
   
-      // this will get the data from the signUpForm and pass it to the userService's 'createUser' method
-    //   let data = this.signUpForm.value;
-    //   // console.log(data);
-    //   this.userService.createUser(data)
-    //     this.dialog.open(UserDialogComponent, {
-    //       data: {
-    //         formData: this.signUpForm.value,
-    //         thanks: "Thank you!"
-    //       }
-    //     })
     }
   }
   //Dialog reference: https://www.techiediaries.com/angular-material-dialogs/
