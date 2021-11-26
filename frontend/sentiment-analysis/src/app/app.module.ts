@@ -39,6 +39,7 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
+      { path: 'login', component: LoginComponent },
       { path: '', component: HomeComponent },
     ]),
     AngularFireModule.initializeApp(environment.firebase),

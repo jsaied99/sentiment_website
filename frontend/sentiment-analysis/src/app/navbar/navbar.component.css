@@ -50,12 +50,9 @@ button {
 
    } */
 
-   .mat-snack-bar-container{
-     background: black;
-     color: white;
-   }
+
 
    mat-toolbar {
-    background: black;
+    background-color: transparent;
     color: white;
    }

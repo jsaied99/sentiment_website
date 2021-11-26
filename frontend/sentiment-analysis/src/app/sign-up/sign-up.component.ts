@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 // import { UserDialogComponent } from '../user-dialog/user-dialog.component';
 // import { ConfirmedValidator } from '../confirm-password';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-
+import { ConfirmedValidator } from '../confirm-password';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -35,7 +35,7 @@ export class SignUpComponent implements OnInit {
       confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
     }, {
       //custom validator imported from confirm-password.ts
-      // validator: ConfirmedValidator('password', 'confirmPassword')
+      validator: ConfirmedValidator('password', 'confirmPassword')
     })
   }
 
