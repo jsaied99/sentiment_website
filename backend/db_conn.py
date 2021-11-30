@@ -139,7 +139,7 @@ def update_doc(db,collection,uid, text):
     # at =analyze_multiple_texts(text_array)
     #endif PRODUCTION
     
-    score = get_text_sentiment(text)    
+    score = flair_sentiment(text)    
     interpretation = get_text_sentiment_interpretation(score)
     if uid_ref.get().exists:
         data = {
