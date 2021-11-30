@@ -1,20 +1,20 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-# import random
-# import pandas as pd
-import concurrent.futures
+import random
 from objects.text_sentiment import TextSentiment
 import nltk
 import threading
+# imports for NLTK
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from testing_threads import *
-from time import time
-# import plotly.express as px
-
+#imports for flair sentiment anal
+from flair.models import TextClassifier
+from flair.data import Sentence
+classifier = TextClassifier.load('en-sentiment')
 SCORE_ARRAY  = []
-TEXT_PER_THREAD = 10
+TEXT_PER_THREAD = 100
 THREADS = 10
 def initialize_db():
     
@@ -84,6 +84,11 @@ def get_text_sentiment(text):
     sid = SentimentIntensityAnalyzer()
     return sid.polarity_scores(text)['compound']
 
+def flair_sentiment(text):
+    sentence = Sentence(text)
+    classifier.predict(sentence)
+    return sentence.labels
+
 
 def get_text_sentiment_thread(text, analyzed_texts):
     sid = SentimentIntensityAnalyzer()
@@ -91,21 +96,12 @@ def get_text_sentiment_thread(text, analyzed_texts):
     for t in text:
         analyzed_texts.append(sid.polarity_scores(t)['compound'])
 
-def get_text_sentiment_thread(text):
-    analyzed_texts = []
-    sid = SentimentIntensityAnalyzer()
-    
-    for t in text:
-        analyzed_texts.append(sid.polarity_scores(t)['compound'])
-    return analyzed_texts
 def get_text_sentiment_interpretation(score):
-    if score > 0.6:
+    if score > 0.5:
         return 'Positive'
-    elif score > 0.33 and score < 0.6:
-        return 'Somewhat Positive'
-    elif score < -0.33:
+    elif score < -0.5:
         return 'Negative'
-    elif score > -0.33 and score < 0.33:
+    elif score > -0.5 and score < 0.5:
         return 'Neutral'
     else:
         return 'Error'
@@ -117,24 +113,17 @@ def analyze_text(db,collection,uid, text):
 
 def analyze_multiple_texts(texts: list):
     analyzed_texts = []
-    
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        thread_pool = [executor.submit(get_text_sentiment_thread, texts[i*TEXT_PER_THREAD:(i+1)*TEXT_PER_THREAD]) for i in range(THREADS)]
+    thread_pool = []
+    for i in range(THREADS):
+        thread_pool.append(threading.Thread(
+            target=get_text_sentiment_thread, args=(texts[i*TEXT_PER_THREAD:(i+1)*TEXT_PER_THREAD], analyzed_texts)))
         
-        for f in concurrent.futures.as_completed(thread_pool):
-            analyzed_texts.extend(f.result())
-        
-        
-    # for i in range(THREADS):
-    #     thread_pool.append(threading.Thread(
-    #         target=get_text_sentiment_thread, args=(texts[i*TEXT_PER_THREAD:(i+1)*TEXT_PER_THREAD], analyzed_texts)))
-        
-    # for thread in thread_pool:
-    #     thread.start()
+    for thread in thread_pool:
+        thread.start()
 
-    # for thread in thread_pool:
-    #     thread.join()
-    # print(len(analyzed_texts))
+    for thread in thread_pool:
+        thread.join()
+    
     return analyzed_texts    
     
         
@@ -142,54 +131,11 @@ def analyze_multiple_texts(texts: list):
 def update_doc(db,collection,uid, text):
     uid_ref = db.collection(collection).document(uid)
     
-    # thread_time = []
-    # non_concurrent_time = []
+
     #if PRODUCTION
     # text_array = get_all_texts()
-    # print(len(text_array))
     # at =analyze_multiple_texts(text_array)
-    # print(len(at))
     #endif PRODUCTION
-    
-    # for i in range(10):
-    #     global TEXT_PER_THREAD
-    #     # double size of text_array
-    #     if i == 0:
-    #         tmp = text_array
-    #     else:
-    #         tmp = (text_array*10 * i)
-        
-    #     TEXT_PER_THREAD = int(len(tmp) / 10)
-
-    #     start = time()
-    #     analyze_multiple_texts(tmp)
-    #     thread_time.append(time() - start)
-    
-    # for i in range(10):
-        
-    #     if i == 0:
-    #         tmp = text_array
-    #     else:
-    #         tmp = (text_array*10 * i)
-    #     print(len(tmp))
-    #     start = time()
-    #     for t in tmp:
-    #         get_text_sentiment(t)
-    #     non_concurrent_time.append(time() - start)
-    
-    
-    # print('Thread time: ' + str(thread_time))
-    # print('Non-concurrent time: ' + str(non_concurrent_time))
-    
-    # df = pd.DataFrame(thread_time)
-    # create dataframe from both thread_time and non_concurrent_time
-    # df = pd.DataFrame(thread_time)
-    # df['non_concurrent_time'] = non_concurrent_time
-    
-    # fig = px.line(df, x='year', y='lifeExp', color='country', symbol="country")
-    # fig.show()
-    # print(df)
-    
     
     score = get_text_sentiment(text)    
     interpretation = get_text_sentiment_interpretation(score)
@@ -213,6 +159,3 @@ def update_doc(db,collection,uid, text):
         }
         insert_doc(db, collection,uid, data)
     return data
-
-        
-    
