@@ -5,9 +5,14 @@ import random
 from objects.text_sentiment import TextSentiment
 import nltk
 import threading
+# imports for NLTK
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from testing_threads import *
+#imports for flair sentiment anal
+from flair.models import TextClassifier
+from flair.data import Sentence
+classifier = TextClassifier.load('en-sentiment')
 SCORE_ARRAY  = []
 TEXT_PER_THREAD = 100
 THREADS = 10
@@ -78,6 +83,11 @@ def get_all_searched_text(db, collection, uid):
 def get_text_sentiment(text):
     sid = SentimentIntensityAnalyzer()
     return sid.polarity_scores(text)['compound']
+
+def flair_sentiment(text):
+    sentence = Sentence(text)
+    classifier.predict(sentence)
+    return sentence.labels
 
 
 def get_text_sentiment_thread(text, analyzed_texts):
