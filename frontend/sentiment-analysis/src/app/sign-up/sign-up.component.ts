@@ -53,9 +53,10 @@ export class SignUpComponent implements OnInit {
   //Will create the user by getting the pawprint, concat. w/ @umsystem, and sending user back to home page
   userRole: any;
   createUser() {
+    return new Promise((resolve, reject) => {
     if(this.signUpForm.valid){
       const {email, password} = this.signUpForm.value;
-      this.auth.createUserWithEmailAndPassword(email, password).then (userResponse => {
+      this.auth.createUserWithEmailAndPassword(email, password).then (async userResponse => {
       
         let user = {
           id: userResponse.user!.uid,
@@ -65,7 +66,7 @@ export class SignUpComponent implements OnInit {
         }
         //Having trouble getting the user to be created in the database
         console.log(user);
-        this.userService.setUser(user)
+        await this.userService.setUser(user)
         this.userService.getUser(user.fname).subscribe(user => {
           //do profile things here if we get to it
           // console.log(user);
@@ -73,9 +74,9 @@ export class SignUpComponent implements OnInit {
         this.auth.signOut();
         this.router.navigate([''])
       })
-  
     }
   }
+  )}
   //Dialog reference: https://www.techiediaries.com/angular-material-dialogs/
 
 }

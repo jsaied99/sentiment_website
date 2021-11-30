@@ -23,9 +23,9 @@ export class UsersService {
   createUser(data: any) {
   }
 
-  setUser(data: any) {
-    return this.firestore
-      .collection('users').doc('Payton').set(data)
+  async setUser(data: any) {
+    await this.firestore
+      .collection('users').doc(data.fname).set(data)
   }
 
   //get user data from firestore database

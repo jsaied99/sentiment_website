@@ -41,19 +41,17 @@ export class LoginComponent {
         const {email, password} = this.loginForm.value;
         this.usersService.getUser(email).subscribe(user => {
           this.userRole = user;
-  
         })
-     
         const auth = getAuth();
-        this.wait(1000);
         signInWithEmailAndPassword(auth,email, password).then(userCredential => {
-          console.log("Firebase Login")
          const user = userCredential.user;
-         localStorage.setItem('userRole', this.userRole.role);
+         //if we are going to have admin accounts, do it here
+        //  localStorage.setItem('userRole', this.userRole.role);
           this.router.navigate(['']).then(() => {
             window.location.reload();
           });
         }).catch((error) => {
+          console.log(error);
           switch (error.code) {
             case "auth/invalid-email":
             case "auth/wrong-password":
@@ -71,8 +69,14 @@ export class LoginComponent {
                 break;
             }
        }
-        });
+  });
+      }else {
+        this.loginError = "Please fill email and password fields."
       }
-  
+    }
+    handleKeyUp(event: { keyCode: number; }) {
+      if (event.keyCode === 13) {
+        this.onLogin();
+      }
     }
 }
