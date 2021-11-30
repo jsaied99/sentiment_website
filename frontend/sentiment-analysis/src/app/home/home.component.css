@@ -1,0 +1,57 @@
+/* input color class */
+::ng-deep input.mat-input-element {
+    color: #484a4c;
+  }
+  
+  /* Change label color on focused */
+  ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: #50d0fb !important;
+  }
+  
+  /* underline border color on focused */
+  ::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+    background-color: #50d0fb !important;
+  }
+
+  mat-form-field {
+    width: 75%;
+    color: black;
+    margin-top: 20%
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+
+
+/* border-radius change: https://stackoverflow.com/questions/66484113/change-increase-border-radius-of-mat-form-field 
+     -needs important tags
+     - Background color is all adjusted here
+*/
+::ng-deep .mat-form-field-outline-start {
+    border-radius: 28px 0 0 28px !important;
+    min-width: 28px !important;
+    background-color: #bbbac6;
+  }
+
+  ::ng-deep .mat-form-field-outline-end {
+    border-radius: 0 28px 28px 0 !important;
+    background-color: #bbbac6;
+  }
+::placeholder {
+    color: black;
+    font-size: medium;
+}
+
+
+  .ng-invalid {
+    color: red;
+    
+  }
+
+  

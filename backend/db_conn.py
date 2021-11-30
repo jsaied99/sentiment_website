@@ -1,26 +1,40 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-# import objects
+import random
 from objects.text_sentiment import TextSentiment
-
+import nltk
+import threading
+nltk.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from testing_threads import *
+SCORE_ARRAY  = []
+TEXT_PER_THREAD = 100
+THREADS = 10
 def initialize_db():
     
     cred = credentials.Certificate("./auth/sentiment-data-baae2-firebase-adminsdk-i1ray-956180ff92.json")
     
     try: 
+        firebase_admin.get_app()
+    except ValueError:
         firebase_admin.initialize_app(cred)
-        db = firestore.client()
-        return db
-    except:
-        return None
-
+    
+    return firestore.client()
 def insert(db, collection, data):
     db.collection(collection).add(data)
     
 def delete(db, collection, id):
     db.collection(collection).document(id).delete()
     
+def update_text(db, collection, uid, data):
+    db.collection(collection).document(uid).update({
+        'texts': firestore.ArrayUnion([data])
+    })
+
+def insert_doc(db,collection,uid, data):
+    db.collection(collection).document(uid).set(data)
+
 def get_all(db, collection):
     docs = db.collection(collection).stream()
     data = []
@@ -55,7 +69,86 @@ def get_all_searched_text(db, collection, uid):
         text_arrays = docs.to_dict()['texts']
 
         for text in text_arrays:
-            tmp_sentiment = TextSentiment(text['text'], text['sentiment'])
+            tmp_sentiment = TextSentiment(text['text'], text['score'])
             data.append(tmp_sentiment.objectify())
         
     return data
+
+
+def get_text_sentiment(text):
+    sid = SentimentIntensityAnalyzer()
+    return sid.polarity_scores(text)['compound']
+
+
+def get_text_sentiment_thread(text, analyzed_texts):
+    sid = SentimentIntensityAnalyzer()
+    
+    for t in text:
+        analyzed_texts.append(sid.polarity_scores(t)['compound'])
+
+def get_text_sentiment_interpretation(score):
+    if score > 0.5:
+        return 'Positive'
+    elif score < -0.5:
+        return 'Negative'
+    elif score > -0.5 and score < 0.5:
+        return 'Neutral'
+    else:
+        return 'Error'
+
+def analyze_text(db,collection,uid, text):
+    return update_doc(db,collection,uid, text)
+
+
+
+def analyze_multiple_texts(texts: list):
+    analyzed_texts = []
+    thread_pool = []
+    for i in range(THREADS):
+        thread_pool.append(threading.Thread(
+            target=get_text_sentiment_thread, args=(texts[i*TEXT_PER_THREAD:(i+1)*TEXT_PER_THREAD], analyzed_texts)))
+        
+    for thread in thread_pool:
+        thread.start()
+
+    for thread in thread_pool:
+        thread.join()
+    
+    return analyzed_texts    
+    
+        
+    
+def update_doc(db,collection,uid, text):
+    uid_ref = db.collection(collection).document(uid)
+    
+
+    #if PRODUCTION
+    # text_array = get_all_texts()
+    # at =analyze_multiple_texts(text_array)
+    #endif PRODUCTION
+    
+    score = get_text_sentiment(text)    
+    interpretation = get_text_sentiment_interpretation(score)
+    if uid_ref.get().exists:
+        data = {
+            'text': text,
+            'score': score,
+            'interpretation': interpretation
+        }
+        update_text(db,collection,uid, data)
+    else:
+        data = {
+            'uid': uid,
+            'texts': [
+                {
+                    'text': text,
+                    'score': score,
+                    'interpretation': interpretation
+                }
+            ]
+        }
+        insert_doc(db, collection,uid, data)
+    return data
+
+        
+    
