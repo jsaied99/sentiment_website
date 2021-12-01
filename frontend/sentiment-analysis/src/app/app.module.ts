@@ -23,6 +23,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
 import { environment } from 'src/environments/environment';
 
 import { UserGuard } from './services/user.guard';
+import { AboutComponent } from './about/about.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { UserGuard } from './services/user.guard';
     FooterComponent,
     LoginComponent,
     SignUpComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,7 @@ import { UserGuard } from './services/user.guard';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
+      { path: 'about', component: AboutComponent },
       { path: 'signUp', component: SignUpComponent },
       { path: 'login', component: LoginComponent },
       { path: '', component: HomeComponent },
