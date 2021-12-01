@@ -21,6 +21,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
 import { environment } from 'src/environments/environment';
+
+import { UserGuard } from './services/user.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +43,7 @@ import { environment } from 'src/environments/environment';
     RouterModule.forRoot([
       { path: 'signUp', component: SignUpComponent },
       { path: 'login', component: LoginComponent },
-      { path: '', component: HomeComponent },
+      { path: '', component: HomeComponent, canActivate: [UserGuard] },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
