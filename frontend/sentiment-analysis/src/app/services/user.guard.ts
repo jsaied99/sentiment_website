@@ -11,21 +11,24 @@ export class UserGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
-      var loggedIn;;
+    var loggedIn: boolean;
+    return new Promise((resolve, reject) => {
       this.afAuth.authState.subscribe(user => {
-        if(user) {
+        if (user) {
           loggedIn = true;
+          resolve(true);
         } else {
           loggedIn = false;
-          //redirect to login
+          this.router.navigate(['/login']);
+          resolve(false);
         }
       });
+      if(loggedIn) {
+        console.log("User is logged in in Guard");
+        return true;
+      }
+      return false;
+    });
 
-    if(loggedIn) {
-      return true;
-    }
-    return false;
   }
-  
 }

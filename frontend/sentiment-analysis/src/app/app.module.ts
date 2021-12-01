@@ -46,7 +46,7 @@ import { AboutComponent } from './about/about.component';
       { path: 'about', component: AboutComponent },
       { path: 'signUp', component: SignUpComponent },
       { path: 'login', component: LoginComponent },
-      { path: '', component: HomeComponent },
+      { path: '', component: HomeComponent, canActivate: [UserGuard], pathMatch: 'full' },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
