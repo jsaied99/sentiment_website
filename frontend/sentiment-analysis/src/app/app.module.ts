@@ -43,7 +43,7 @@ import { UserGuard } from './services/user.guard';
     RouterModule.forRoot([
       { path: 'signUp', component: SignUpComponent },
       { path: 'login', component: LoginComponent },
-      { path: '', component: HomeComponent, canActivate: [UserGuard] },
+      { path: '', component: HomeComponent },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
