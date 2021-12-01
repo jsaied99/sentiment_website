@@ -2,18 +2,13 @@
     <img src="assets/sentiment analysis.png">
     <span color="warn" id="navHeader">Sentiment Analysis</span>
     <span class="spacer"></span>
-    <button mat-button routerLink="/examples">Examples</button>
-    <button mat-button routerLink="">Analysis</button>
-    <button mat-button routerLink="/about">About</button>
-    <div *ngIf="">
-        <button mat-button routerLink="/admin">Admin</button>
-    </div>
+        <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="/popularity">Popularity</button>
+        <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="">Analyze</button>
+        <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="history">History</button>
+        <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="/about">About</button>
     <span class="spacer"></span>
-    <button mat-button routerLink="/login" *ngIf="!(afAuth.user | async); else noLogin">Login</button>
+    <button mat-button [routerLinkActive]="['active']" routerLink="/login" *ngIf="!(afAuth.user | async); else noLogin">Login</button>
     <ng-template #noLogin>
-        <button mat-button (click)="logout()">Logout</button>
+        <button mat-button (click)="logout()">Log Out</button>
     </ng-template>
-    <button mat-button routerLink="/cart" id="cart">
-        <mat-icon aria-hidden="false" aria-label="Shopping Cart">shopping_cart</mat-icon>
-    </button>
 </mat-toolbar>
