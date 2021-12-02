@@ -1,6 +1,13 @@
 <div class="center">
-    <mat-form-field appearance="fill" appearance="outline">
-        <input type="text" matInput placeholder="Paste your text here:" />
-    </mat-form-field>
+    <div class="form">
+      <label>Hashtag (#) to analyze </label>
+      <mat-form-field appearance="fill" appearance="outline">
+        <input type="text" matInput>
+      </mat-form-field>
+      <label>Number of Tweets</label>
+      <mat-form-field id="numTweetsInput" appearance="fill" appearance="outline">
+        <input type="text" matInput>
+      </mat-form-field>
+    </div>
     <button mat-raised-button color="primary">Analyze</button>
 </div>
