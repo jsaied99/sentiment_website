@@ -10,6 +10,8 @@ export class HomeComponent implements OnInit {
   dataLoaded: boolean = false;
   averageSentiment: number | string = "No Data";
   numberOfTweets: number | string = "No Data";
+  averageSentimentInterpretation: string = "No Data";
+
   hashTagSearchValue: string | null = null;
 
   constructor() { }
@@ -80,9 +82,9 @@ export class HomeComponent implements OnInit {
     this.numberOfTweets = data.length;
 
     this.averageSentiment = this.getAverageSentimentScoreOfTweets(data, this.numberOfTweets);
+    this.averageSentimentInterpretation = this.getAverageSentimentScoreInterpretation(parseFloat(this.averageSentiment));
 
     this.dataLoaded = true;
-
   }
 
   public getAverageSentimentScoreOfTweets(jsonDataList: any, numberOfTweets: number){
@@ -100,4 +102,22 @@ export class HomeComponent implements OnInit {
     return roundedAverage;
   }
 
+  public getAverageSentimentScoreInterpretation(averageSentimentScore: number): string {
+
+    if(averageSentimentScore >= 0.6){
+      return 'Positive';
+    }
+    else if(averageSentimentScore > 0.33 && averageSentimentScore < 0.6){
+      return 'Somewhat Positive';
+    }
+    else if(averageSentimentScore < -0.33){
+      return 'Negative';
+    }
+    else if(averageSentimentScore >= -0.33 && averageSentimentScore <= 0.33){
+      return 'Neutral';
+    }
+    else {
+      return 'Error';
+    }
+  }
 }
