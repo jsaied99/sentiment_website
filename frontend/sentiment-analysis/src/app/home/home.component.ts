@@ -41,6 +41,8 @@ export class HomeComponent implements OnInit {
       if(uid && this.hashTagSearchValue && tweetsNum){
         this.api.getSentimentAnalysis(uid, this.hashTagSearchValue, tweetsNum).subscribe((response: any) => {
 
+          console.log(response);
+
           if(response['success'] == 1){
             let data = response['data'];
 
