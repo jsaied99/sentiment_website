@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  dataLoaded: boolean = false;
+  averageSentiment: number | string = "No Data";
+  numberOfTweets: number | string = "No Data";
+  hashTagSearchValue: string | null = null;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -72,19 +77,27 @@ export class HomeComponent implements OnInit {
 
     const data = response['data'];
 
-    let averageSentiment = this.getAverageSentimentScoreOfTweets(data);
+    this.numberOfTweets = data.length;
+
+    this.averageSentiment = this.getAverageSentimentScoreOfTweets(data, this.numberOfTweets);
+
+    this.dataLoaded = true;
 
   }
 
-  public getAverageSentimentScoreOfTweets(jsonDataList: any){
+  public getAverageSentimentScoreOfTweets(jsonDataList: any, numberOfTweets: number){
 
     let total: number = 0;
 
-    for(let i = 0; i < jsonDataList.length; i++){
+    for(let i = 0; i < numberOfTweets; i++){
       total+= jsonDataList[i]['score'];
     }
 
-    return total / jsonDataList.length;
+    let average: number = total / numberOfTweets;
+
+    let roundedAverage: string = average.toFixed(4);
+
+    return roundedAverage;
   }
 
 }

@@ -15,9 +15,15 @@
         <button mat-raised-button color="primary" (click)="analyzeTweets()">Analyze</button>
       </div>
     </div>
-    <div id="resultsGrid">
+    <div id="resultsGrid" *ngIf="dataLoaded">
 <!--   Placeholders to design layout-->
       <button id="chart">Chart</button>
-      <button id="hashtagData">Hashtag Metadata</button>
+      <div id="hashtagData">
+        <h1 id="hashtagDataHeader">Hashtag Data</h1>
+        <mat-list role="list">
+          <mat-list-item role="listitem">Number of Tweets: {{ numberOfTweets }}</mat-list-item>
+          <mat-list-item role="listitem">Average Sentiment: {{ averageSentiment }}</mat-list-item>
+        </mat-list>
+      </div>
     </div>
 </div>
