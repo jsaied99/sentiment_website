@@ -10,9 +10,9 @@ nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from testing_threads import *
 #imports for flair sentiment anal
-from flair.models import TextClassifier
-from flair.data import Sentence
-classifier = TextClassifier.load('en-sentiment')
+# from flair.models import TextClassifier
+# from flair.data import Sentence
+# classifier = TextClassifier.load('en-sentiment')
 SCORE_ARRAY  = []
 TEXT_PER_THREAD = 100
 THREADS = 10
@@ -84,10 +84,10 @@ def get_text_sentiment(text):
     sid = SentimentIntensityAnalyzer()
     return sid.polarity_scores(text)['compound']
 
-def flair_sentiment(text):
-    sentence = Sentence(text)
-    classifier.predict(sentence)
-    return sentence.labels
+# def flair_sentiment(text):
+#     sentence = Sentence(text)
+#     classifier.predict(sentence)
+#     return sentence.labels
 
 
 def get_text_sentiment_thread(text, analyzed_texts):
@@ -97,11 +97,13 @@ def get_text_sentiment_thread(text, analyzed_texts):
         analyzed_texts.append(sid.polarity_scores(t)['compound'])
 
 def get_text_sentiment_interpretation(score):
-    if score > 0.5:
+    if score > 0.6:
         return 'Positive'
-    elif score < -0.5:
+    elif score > 0.33 and score < 0.6:
+        return 'Somewhat Positive'
+    elif score < -0.33:
         return 'Negative'
-    elif score > -0.5 and score < 0.5:
+    elif score > -0.33 and score < 0.33:
         return 'Neutral'
     else:
         return 'Error'
@@ -137,7 +139,7 @@ def update_doc(db,collection,uid, text):
     # at =analyze_multiple_texts(text_array)
     #endif PRODUCTION
     
-    score = get_text_sentiment(text)    
+    score = get_text_sentiment(text)
     interpretation = get_text_sentiment_interpretation(score)
     if uid_ref.get().exists:
         data = {
@@ -159,6 +161,3 @@ def update_doc(db,collection,uid, text):
         }
         insert_doc(db, collection,uid, data)
     return data
-
-        
-    
