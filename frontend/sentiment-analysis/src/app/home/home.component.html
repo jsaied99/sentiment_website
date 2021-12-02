@@ -1,14 +1,14 @@
 <div class="center">
-    <div id="form">
+    <form id="form" [formGroup]="hashtagSentimentForm">
       <label>Hashtag (#) to analyze </label>
       <mat-form-field appearance="fill" appearance="outline">
-        <input type="text" matInput>
+        <input type="text" matInput formControlName="hashtag">
       </mat-form-field>
       <label>Number of Tweets</label>
       <mat-form-field id="numTweetsInput" appearance="fill" appearance="outline">
-        <input type="text" matInput>
+        <input type="text" matInput formControlName="tweetsNum">
       </mat-form-field>
-    </div>
+    </form>
     <div id="buttons">
       <div id="buttonBox">
         <button mat-raised-button color="primary">Popularity</button>
@@ -19,7 +19,7 @@
 <!--   Placeholders to design layout-->
       <button id="chart">Chart</button>
       <div id="hashtagData">
-        <h1 id="hashtagDataHeader">Hashtag Data</h1>
+        <h1 id="hashtagDataHeader">{{ hashTagSearchValue }}Data</h1>
         <mat-list role="list">
           <mat-list-item role="listitem">Number of Tweets: {{ numberOfTweets }}</mat-list-item>
           <mat-list-item role="listitem">Average Sentiment: {{ averageSentiment }}</mat-list-item>

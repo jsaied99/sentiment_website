@@ -33,9 +33,9 @@
 }
 
 
-  .ng-invalid {
-    color: red;
-  }
+  /*.ng-invalid {*/
+  /*  color: red;*/
+  /*}*/
 
 
 mat-form-field {
@@ -94,7 +94,8 @@ button {
 }
 
 #chart {
-
+  grid-row-start: 1;
+  grid-row-end: 3;
 }
 #hashtagData {
   grid-column-start: 2;
