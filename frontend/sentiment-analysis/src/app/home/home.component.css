@@ -12,7 +12,7 @@
   ::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
     background-color: #50d0fb !important;
   }
-  
+
 /* border-radius change: https://stackoverflow.com/questions/66484113/change-increase-border-radius-of-mat-form-field
      -needs important tags
      - Background color is all adjusted here
@@ -51,7 +51,7 @@ mat-form-field {
 }
 
 #form {
-  margin-top: 8%;
+  margin-top: 5%;
 }
 
 #buttons {
@@ -81,6 +81,26 @@ button {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+#resultsGrid {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  grid-template-rows: 70% 30%;
+  height: 400px;
+  width: 90%;
+  margin-top: 3%;
+}
+
+#chart {
+
+}
+#hashtagData {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+
 }
 
 
