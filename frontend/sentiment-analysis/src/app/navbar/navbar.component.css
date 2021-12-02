@@ -41,7 +41,9 @@ button {
     flex: 1;
   }
   
-  
+  button {
+    border-radius: 5EM 5EM;
+  }
   /*
    * Make the Component injected by Router Outlet full height:
    */
@@ -55,4 +57,12 @@ button {
    mat-toolbar {
     background-color: transparent;
     color: white;
+   }
+
+   .navContain {
+     left: 30%;
+   }
+
+   .active {
+     box-shadow: 0px 0px 10px #222222;
    }
