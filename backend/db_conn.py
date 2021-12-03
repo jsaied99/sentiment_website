@@ -97,13 +97,13 @@ def get_text_sentiment_thread(text, analyzed_texts):
         analyzed_texts.append(sid.polarity_scores(t)['compound'])
 
 def get_text_sentiment_interpretation(score):
-    if score > 0.6:
+    if score >= 0.6:
         return 'Positive'
     elif score > 0.33 and score < 0.6:
         return 'Somewhat Positive'
     elif score < -0.33:
         return 'Negative'
-    elif score > -0.33 and score < 0.33:
+    elif score >= -0.33 and score <= 0.33:
         return 'Neutral'
     else:
         return 'Error'
