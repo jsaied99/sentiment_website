@@ -25,6 +25,7 @@ import { environment } from 'src/environments/environment';
 
 import { UserGuard } from './services/user.guard';
 import { AboutComponent } from './about/about.component';
+import { HistoryComponent } from './history/history.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { AboutComponent } from './about/about.component';
     LoginComponent,
     SignUpComponent,
     AboutComponent,
+    HistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,10 +50,12 @@ import { AboutComponent } from './about/about.component';
       { path: 'about', component: AboutComponent },
       { path: 'signUp', component: SignUpComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'history', component: HistoryComponent },
       { path: '', component: HomeComponent, canActivate: [UserGuard], pathMatch: 'full' },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

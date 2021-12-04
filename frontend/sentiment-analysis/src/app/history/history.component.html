@@ -1,0 +1,12 @@
+<p>history works!</p>
+<!-- <h1 *ngIf="this.myTest">{{ this.myTest["data"][3]["score"] }}</h1> -->
+<!-- <h1>{{this.myTest['data'][0]['texts'][0]['tweet']}}</h1> -->
+<div *ngFor="let query of this.myTest['data'][0]['texts']">
+    <br>
+    {{query['tweet']}}
+    <!-- <div *ngFor="let tweet of query['text']"> -->
+        <!-- <h1>{{query["tweet"]}}</h1>
+        <h1>{{query["score"]}}</h1>
+        <h1>{{query["interpretation"]}}</h1> -->
+    <!-- </div> -->
+</div>
