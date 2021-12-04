@@ -12,17 +12,14 @@ export class BackendService {
 
   public getHistory(){
 
-    console.log("Get all queries in service ts");
-
       return this.http.get(
         'https://jamalsaied.net:8888/all_queries'
       );
   }
 
   public getSentimentAnalysis(uid: string, hashtag: string, limit: number){
-    return this.http.get(
-      'https://jamalsaied.net:8888/twitter_api?uid=' + uid + '&topic=' + hashtag + '&limit=' + limit
-    );
-  }
 
+    const url = 'https://jamalsaied.net:8888/twitter_api';
+    return this.http.post(url, {uid: uid, topic: hashtag, limit: limit});
+  }
 }

@@ -12,6 +12,8 @@ import { getAuth } from "firebase/auth";
 export class HomeComponent implements OnInit {
 
   dataLoaded: boolean = false;
+  rawData!: any;
+
   averageSentiment: number | string = "No Data";
   numberOfTweets: number = 0;
   averageSentimentInterpretation: string = "No Data";
@@ -37,6 +39,8 @@ export class HomeComponent implements OnInit {
       this.hashTagSearchValue = formValues.hashtag;
       let tweetsNum = formValues.tweetsNum;
 
+
+
       let uid: string | null = this.getUid();
       if(uid && this.hashTagSearchValue && tweetsNum){
         this.api.getSentimentAnalysis(uid, this.hashTagSearchValue, tweetsNum).subscribe((response: any) => {
@@ -44,17 +48,18 @@ export class HomeComponent implements OnInit {
           console.log(response);
 
           if(response['success'] == 1){
-            let data = response['data'];
 
-            this.numberOfTweets = data.length;
+            this.rawData = response['data'];;
 
-            this.averageSentiment = this.getAverageSentimentScoreOfTweets(data, this.numberOfTweets);
+            this.numberOfTweets = this.rawData['texts'].length;
+
+            this.averageSentiment = this.getAverageSentimentScoreOfTweets(this.rawData, this.numberOfTweets);
             this.averageSentimentInterpretation = this.getAverageSentimentScoreInterpretation(parseFloat(this.averageSentiment));
 
             this.dataLoaded = true;
           }
           else {
-            console.log("Not a hashtag");
+            console.log(response['error']);
           }
         });
       }
@@ -84,7 +89,7 @@ export class HomeComponent implements OnInit {
     let total: number = 0;
 
     for(let i = 0; i < numberOfTweets; i++){
-      total+= jsonDataList[i]['score'];
+      total+= jsonDataList['texts'][i]['score'];
     }
 
     let average: number = total / numberOfTweets;

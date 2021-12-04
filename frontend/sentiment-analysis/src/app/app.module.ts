@@ -26,6 +26,8 @@ import { environment } from 'src/environments/environment';
 import { UserGuard } from './services/user.guard';
 import { AboutComponent } from './about/about.component';
 import { HistoryComponent } from './history/history.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { ScatterPlotComponent } from './scatter-plot/scatter-plot.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +38,8 @@ import { HistoryComponent } from './history/history.component';
     SignUpComponent,
     AboutComponent,
     HistoryComponent,
+    PieChartComponent,
+    ScatterPlotComponent,
   ],
   imports: [
     BrowserModule,

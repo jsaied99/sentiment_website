@@ -2,9 +2,8 @@
     <img src="assets/sentiment analysis.png">
     <span color="warn" id="navHeader">Sentiment Analysis</span>
     <span class="spacer"></span>
-        <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="/popularity">Popularity</button>
-        <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="">Analyze</button>
         <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="/history">History</button>
+        <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="">Analyze</button>
         <button mat-button routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" routerLink="/about">About</button>
     <span class="spacer"></span>
     <button mat-button [routerLinkActive]="['active']" routerLink="/login" *ngIf="!(afAuth.user | async); else noLogin">Login</button>
