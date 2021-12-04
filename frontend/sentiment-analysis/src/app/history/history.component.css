@@ -36,11 +36,31 @@
   .data-card {
     margin: 5px;
     max-width: 400px;
-    height: 200px;
+    height: 300px;
     padding: 20px;
-    background-color: #50d0fb;
+    background-color: #3db2e6;
   }
 
   .content {
     padding: 15px;
+  }
+
+  .flex-container{
+      display: flex;
+  }
+
+  #topic-list{
+      width: 20%;
+  }
+
+  .center-text{
+    text-align: center;
+  }
+
+  #select-topic{
+      text-align: left;
+  }
+
+  p, h3{
+    color: black;
   }
