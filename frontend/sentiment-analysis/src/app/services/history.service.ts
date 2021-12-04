@@ -7,7 +7,8 @@ import { Observable, throwError } from 'rxjs';
 })
 export class HistoryService {
 
-  private historyUrl = 'https://jamalsaied.net:8888/all_queries?uid=test3';
+  // private historyUrl = 'https://jamalsaied.net:8888/all_queries?uid=DaXKIgYZgNWDATuUBx4mUkt6dQp2';
+  private historyUrl = 'https://jamalsaied.net:8888/all_queries?uid=';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +17,9 @@ export class HistoryService {
   constructor(private http: HttpClient,) { }
 
   // add parameter for current userId
-  getHistory() { 
-    return this.http.get<any>(this.historyUrl);
+  getHistory(userId: string | null) { 
+    let url = this.historyUrl+userId;
+    console.log(url);
+    return this.http.get<any>(url);
   }
 }

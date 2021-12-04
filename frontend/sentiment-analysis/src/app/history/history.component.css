@@ -20,7 +20,7 @@
     background-color: #e6e6e6;
     left: .1em;
   }
-  .queryListli.selected {
+  .queryList li.selected {
     background-color: black;
     color: white;
   }
@@ -31,4 +31,16 @@
   .queryList li.selected:active {
     background-color: black;
     color: white;
+  }
+  
+  .data-card {
+    margin: 5px;
+    max-width: 400px;
+    height: 200px;
+    padding: 20px;
+    background-color: #50d0fb;
+  }
+
+  .content {
+    padding: 15px;
   }

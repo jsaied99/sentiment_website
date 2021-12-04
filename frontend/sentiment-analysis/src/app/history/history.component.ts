@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoryService } from '../services/history.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { getAuth } from "firebase/auth";
 
 export interface tweet_data{
   tweet: string,
@@ -31,7 +32,8 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
   //  get cookie for userId to be passed to getHistory
-   this.historyService.getHistory().subscribe(data => {
+   let uid: string | null= this.getUid();
+   this.historyService.getHistory(uid).subscribe(data => {
         console.log(data['data'][0]['texts']);
         console.log("score is " + data);
         this.myTest = data;
@@ -42,6 +44,18 @@ export class HistoryComponent implements OnInit {
 
   onSelect(this_response: api_response): void {
     this.selected_api_response= this_response;
+  }
+
+  public getUid(): string | null{
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      return user.uid;
+    } else {
+      console.log("Not logged in so can't get uid");
+      return null;
+    }
   }
 
 }
