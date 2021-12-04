@@ -26,3 +26,7 @@
     flex-direction: column;
   }
 
+ body {
+  font-family: 'Open Sans', sans-serif;
+  }
+
