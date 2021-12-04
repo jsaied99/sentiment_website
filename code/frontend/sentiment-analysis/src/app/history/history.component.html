@@ -1,0 +1,28 @@
+<div class="flex-container">
+    <div class="flex-child" id="topic-list">
+        <h2 id="select-topic">Select Topic</h2>
+        <ul class="queryList">
+            <li *ngFor="let query of this.myTest['data']"
+                [class.selected]="query === selected_api_response"
+                (click)="onSelect(query)">
+                <span>{{query['topic']}}</span>
+            </li>
+        </ul>
+    </div>  
+
+    <div *ngIf="selected_api_response" class="content flex-child">
+        <h1 class="center-text">Topic: {{selected_api_response['topic']}}</h1>
+        <div fxLayout="row wrap">
+            <div fxFlex="25%" *ngFor="let query of selected_api_response['texts']">
+                <mat-card class="data-card">
+                    <mat-card-content>
+                        <p>Tweet: {{query['tweet']}}</p>
+                        <h3>Sentiment Score: {{query['score']}}</h3>
+                        <h3>Interpretation: {{query['interpretation']}}</h3>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
