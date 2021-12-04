@@ -26,11 +26,6 @@ export class SignUpComponent implements OnInit {
     private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
-    this.firestore.collection('users').doc('Payton').set({
-      fname: 'Jamal',
-      lname: 'Barker',
-
-    })
     this.signUpForm = this.fb.group({
       fname: new FormControl('', Validators.required),
       lname: new FormControl('', Validators.required),
@@ -61,16 +56,9 @@ export class SignUpComponent implements OnInit {
         let user = {
           id: userResponse.user!.uid,
           email: userResponse.user!.email,
-          fname: this.fname!.value,
-          role: 'user',
         }
         //Having trouble getting the user to be created in the database
-        console.log(user);
-        await this.userService.setUser(user)
-        this.userService.getUser(user.fname).subscribe(user => {
-          //do profile things here if we get to it
-          // console.log(user);
-        })
+        await this.userService.setUser(user);
         this.auth.signOut();
         this.router.navigate([''])
       })
