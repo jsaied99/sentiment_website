@@ -25,6 +25,8 @@ import { environment } from 'src/environments/environment';
 
 import { UserGuard } from './services/user.guard';
 import { AboutComponent } from './about/about.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { ScatterPlotComponent } from './scatter-plot/scatter-plot.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +36,8 @@ import { AboutComponent } from './about/about.component';
     LoginComponent,
     SignUpComponent,
     AboutComponent,
+    PieChartComponent,
+    ScatterPlotComponent,
   ],
   imports: [
     BrowserModule,
