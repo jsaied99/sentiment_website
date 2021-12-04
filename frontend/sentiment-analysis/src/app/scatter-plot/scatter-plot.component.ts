@@ -19,6 +19,8 @@ export class ScatterPlotComponent implements AfterViewInit {
 
   scatterPlotBubbleRadius: number = 5;
   scatterPlotBubbleColor: string = 'rgb(199,0,252)';
+  legendFontSize: number = 14;
+  titleFontSize: number = 16;
 
   constructor() {
   }
@@ -46,7 +48,7 @@ export class ScatterPlotComponent implements AfterViewInit {
 
     const data = {
       datasets: [{
-        label: 'Scatter Dataset',
+        label: 'Sentiment Scores',
         data: this.getPlotPoints(),
         backgroundColor: this.scatterPlotBubbleColor
       }],
@@ -59,6 +61,13 @@ export class ScatterPlotComponent implements AfterViewInit {
         scales: {
           x: {
             type: 'linear',
+            title: {
+              display: true,
+              text: 'Tweets',
+              font: {
+                size: this.legendFontSize
+              }
+            },
             position: 'bottom',
             ticks: {
               stepSize: 1
@@ -67,6 +76,13 @@ export class ScatterPlotComponent implements AfterViewInit {
           y: {
             max: 1.1,
             min: -1.1,
+            title: {
+              display: true,
+              text: 'Sentiment Score',
+              font: {
+                size: this.legendFontSize
+              }
+            },
             ticks: {
               stepSize: 0.05
             }
@@ -75,7 +91,18 @@ export class ScatterPlotComponent implements AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: 'Sentiment Scores for ' + this.hashtag + ' Tweets'
+            text: 'Sentiment Scores for ' + this.hashtag + ' Tweets',
+            font: {
+              size: this.titleFontSize
+            }
+          },
+          legend: {
+            labels: {
+              // This more specific font property overrides the global property
+              font: {
+                size: this.legendFontSize
+              }
+            }
           }
         }
       }

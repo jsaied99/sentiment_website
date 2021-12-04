@@ -16,6 +16,8 @@ export class PieChartComponent implements AfterViewInit {
 
 
   pieChart: any;
+  legendFontSize: number = 14;
+  titleFontSize: number = 16;
 
   constructor() { }
 
@@ -50,7 +52,18 @@ export class PieChartComponent implements AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: 'Tweets Grouped By Sentiment Score Interpretation for ' + this.hashtag + ' Tweets'
+            text: ['Tweets Grouped by Sentiment Score', ' Interpretation for ' + this.hashtag + ' Tweets'],
+            font: {
+              size: this.titleFontSize
+            }
+          },
+          legend: {
+            labels: {
+              // This more specific font property overrides the global property
+              font: {
+                size: this.legendFontSize
+              }
+            }
           }
         }
       }
