@@ -25,6 +25,7 @@ export interface response{
 })
 export class HistoryComponent implements OnInit {
   myTest: response = {data: [{texts: [], topic: "blank topic"}], status: "undefined status"};
+  selected_api_response?: api_response;
   // otherTest: any = [];
   constructor(private historyService: HistoryService, private http: HttpClient,) { }
 
@@ -39,6 +40,8 @@ export class HistoryComponent implements OnInit {
     console.log("this.mytest = " + this.myTest);
   }
 
-
+  onSelect(this_response: api_response): void {
+    this.selected_api_response= this_response;
+  }
 
 }

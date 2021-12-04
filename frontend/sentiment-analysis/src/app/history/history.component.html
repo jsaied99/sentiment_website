@@ -1,12 +1,26 @@
 <p>history works!</p>
 <!-- <h1 *ngIf="this.myTest">{{ this.myTest["data"][3]["score"] }}</h1> -->
 <!-- <h1>{{this.myTest['data'][0]['texts'][0]['tweet']}}</h1> -->
-<div *ngFor="let query of this.myTest['data'][0]['texts']">
+<ul class="queryList">
+    <li *ngFor="let query of this.myTest['data']"
+        [class.selected]="query === selected_api_response"
+        (click)="onSelect(query)">
+        <span>{{query['topic']}}</span>
+    </li>
+</ul>
+
+<div *ngIf="selected_api_response">
+    <div *ngFor="let query of selected_api_response['texts']">
+        <h1>{{query['tweet']}}</h1>
+    </div>
+</div>
+
+<!-- <div *ngFor="let query of this.myTest['data'][0]['texts']">
     <br>
     {{query['tweet']}}
-    <!-- <div *ngFor="let tweet of query['text']"> -->
-        <!-- <h1>{{query["tweet"]}}</h1>
+    <div *ngFor="let tweet of query['text']">
+        <h1>{{query["tweet"]}}</h1>
         <h1>{{query["score"]}}</h1>
-        <h1>{{query["interpretation"]}}</h1> -->
-    <!-- </div> -->
-</div>
+        <h1>{{query["interpretation"]}}</h1>
+    </div>
+</div> -->
