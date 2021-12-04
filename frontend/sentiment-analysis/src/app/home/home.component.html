@@ -15,9 +15,9 @@
         <button mat-raised-button color="primary" (click)="analyzeTweets()">Analyze</button>
       </div>
     </div>
-    <div id="resultsGrid" *ngIf="dataLoaded">
-<!--   Placeholders to design layout-->
-      <button id="chart">Chart</button>
+    <div id="resultsGrid" *ngIf="!dataLoaded">
+      <app-pie-chart id="chart" [data]="rawData" [hashtag]="hashTagSearchValue"></app-pie-chart>
+      <app-scatter-plot id="chart" [data]="rawData" [hashtag]="hashTagSearchValue"></app-scatter-plot>
       <div id="hashtagData">
         <h1 id="hashtagDataHeader">{{ hashTagSearchValue }}Data</h1>
         <mat-list role="list">
