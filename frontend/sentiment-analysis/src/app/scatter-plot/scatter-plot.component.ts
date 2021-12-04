@@ -12,7 +12,7 @@ export class ScatterPlotComponent implements AfterViewInit {
 
   @ViewChild('scatterCanvas') public scatterCanvas!: ElementRef;
 
-  @Input() data!: any[] | undefined;
+  @Input() data!: any | undefined;
   @Input() hashtag!: string | null;
 
   scatterChart: any;
@@ -33,8 +33,8 @@ export class ScatterPlotComponent implements AfterViewInit {
 
     if(this.data){
       let plotPoints = [];
-      for(let i = 0; i < this.data.length; i++){
-        plotPoints.push({x: i+1, y: this.data[i]['score'], r: this.scatterPlotBubbleRadius});
+      for(let i = 0; i < this.data['texts'].length; i++){
+        plotPoints.push({x: i+1, y: this.data['texts'][i]['score'], r: this.scatterPlotBubbleRadius});
       }
       return plotPoints;
 

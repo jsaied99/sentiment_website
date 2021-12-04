@@ -18,9 +18,9 @@
       <app-pie-chart id="chart" [data]="rawData" [hashtag]="hashTagSearchValue"></app-pie-chart>
       <app-scatter-plot id="chart" [data]="rawData" [hashtag]="hashTagSearchValue"></app-scatter-plot>
       <div id="hashtagData">
-        <h1 id="hashtagDataHeader">{{ hashTagSearchValue }}Data</h1>
+        <h1 id="hashtagDataHeader">{{ hashTagSearchValue }} Data</h1>
         <mat-list role="list">
-          <mat-list-item role="listitem">Number of Tweets: {{ numberOfTweets }}</mat-list-item>
+          <mat-list-item role="listitem">Tweets Analyzed: {{ numberOfTweets }}</mat-list-item>
           <mat-list-item role="listitem">Average Sentiment: {{ averageSentiment }}</mat-list-item>
           <mat-list-item role="listitem">Average Sentiment Interpretation: {{ averageSentimentInterpretation }}</mat-list-item>
         </mat-list>

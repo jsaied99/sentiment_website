@@ -19,10 +19,7 @@ export class BackendService {
 
   public getSentimentAnalysis(uid: string, hashtag: string, limit: number){
 
-    // const url = 'https://jamalsaied.net:8888/twitter_api?uid=' + uid + '&topic=' + hashtag + '&limit=' + limit;
     const url = 'https://jamalsaied.net:8888/twitter_api';
-
-    console.log(url);
     return this.http.post(url, {uid: uid, topic: hashtag, limit: limit});
   }
 }

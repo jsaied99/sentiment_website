@@ -11,7 +11,7 @@ export class PieChartComponent implements AfterViewInit {
 
   @ViewChild('pieCanvas') public pieCanvas!: ElementRef;
 
-  @Input() data!: any[] | undefined;
+  @Input() data!: any | undefined;
   @Input() hashtag!: string | null;
 
 
@@ -30,7 +30,6 @@ export class PieChartComponent implements AfterViewInit {
     console.log(this.data);
 
     let values = this.getNumberOfTweetsInSentimentSegments();
-    console.log(values);
 
     const chartData = {
       labels: ['Negative', 'Neutral', 'Somewhat Positive', 'Positive'],
@@ -76,8 +75,8 @@ export class PieChartComponent implements AfterViewInit {
 
         let sentimentGroupCounts: number[] = [0, 0, 0, 0];
 
-        for(let i = 0; i < this.data.length; i++){
-          let score = this.data[i]['score'];
+        for(let i = 0; i < this.data['texts'].length; i++){
+          let score = this.data['texts'][i]['score'];
 
           if(score >= 0.6){
             sentimentGroupCounts[3]++;
